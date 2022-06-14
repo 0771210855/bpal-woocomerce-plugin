@@ -1,0 +1,29 @@
+.bpal-container{
+	width: 100%;
+	border: 1px solid #ddd;
+
+}
+
+.bpal-container form{
+	margin-left: 30px;
+	display: table;
+} 
+
+form .logo img{
+margin: 10px;
+}
+
+form .footer-txt p{
+	font-size: 12px;
+	text-align: center;
+
+}
+
+form .footer-txt p a{
+	text-decoration: none;
+}
+
+form input[type=submit]{
+	width: 100%;
+	border-radius: 5px;
+}
