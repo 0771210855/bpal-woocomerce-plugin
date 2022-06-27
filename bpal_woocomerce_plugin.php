@@ -1,21 +1,20 @@
 <?php
-
 /**
+ * 
  * Plugin Name: BPal Cloud Gateway
  * Author: BPal Technologies
  * Author URI: http://bpalcloud.com
  * Version: 1.0
  * Description: Payments gateway Uganda.
-
  *
  *  text-domain: bpal
  * 
  * Class WC_BPal_payments_gateway file.
  * 
- * 
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
+
 	exit;
 }
 wp_enqueue_style('styles', plugins_url( 'styles.css', __FILE__ ), array(),'all');
@@ -148,12 +147,17 @@ function woocommerce_bpal_init() {
 						<div class='bpal-container'>
 						<form action='".plugin_dir_url( __FILE__ ) . "./bpal_collections.php' method='post'>
 						<div class='logo'><img src='".plugin_dir_url(__FILE__)."favicon.png' style='width:60px;' alt='BPal'><div>";
-						
+				
+			// $path = plugin_dir_url( __FILE__ );
+			// echo $path;
+			// exit();
 			if(isset($_GET['message'])){
 
 			$output.="<div class='message'> <p>".$_GET['message']."</p> <div>";
 
-				if($_GET['message'] != "Access denied please try again"){
+			
+
+				if($_GET['message'] != "Access denied Check details and try again"){
 					if($order_id > 0){
 						$order = new WC_Order( $order_id );
 						$order->update_status('Processing', __( 'Processing payment', 'woocommerce' ));  
@@ -192,38 +196,54 @@ function woocommerce_bpal_init() {
 			}
 		}
 	}
+
 }
+
+
 
 add_action('woocommerce_init', 'woocommerce_bpal_init');
 
-	
-	// add_action('init','woo_check_bpal_response');
 
-	// require_once plugin_dir_path( __FILE__ ) . './bpal_collections.php';
+if (false){
 
-	// function woo_check_bpal_response(){
-	// 	print_r($_POST);
-	// 	if (isset($_POST['transactionId']))
-	// 	{
-	// 		$txId=sanitize_text_field($_POST['transactionId']);
-	// 		$st=sanitize_text_field($_POST['status']);
-	// 		if($txId>0 && $st=='success')
-	// 		{
-	// 			if (wp_verify_nonce( $_GET['_wpnonce'], 'success_bpal' ) )
-	// 			{
-	// 				//$json_data = json_decode(base64_decode($_POST['options']));
-	// 				$order_id =  $txId;
-	// 				print_r($_POST);
-	// 				if($order_id > 0){
-	// 					$order = new WC_Order( $order_id );
-	// 					$order->update_status('completed', __( 'Completed payment', 'woocommerce' ));  
-	// 					$order->reduce_order_stock();
-	// 					wc()->cart->empty_cart();
-	// 					$order->payment_complete();
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
+	add_action('init','woo_check_bpal_response');
 
+
+function woo_check_bpal_response(){
 		
+	$bpal_post = json_decode(file_get_contents('php://input'), true);
+	
+		$netwrk_ref = $bpal_post['netwrk_ref'];
+		$vender_tran_ref = $bpal_post["vender_tran_ref"];
+		$collection = $bpal_post["collection"];
+		$status = $bpal_post["status"];
+		$status_desc = $bpal_post["status_desc"];
+
+		$status_desc = json_decode(file_get_contents('php://input'), true);
+
+		$myfile = fopen(rand(1,50)."_newfile.txt", "w") or die("Unable to open file!");
+		fwrite($myfile, $netwrk_ref);
+		fclose($myfile);
+
+		if($status == 1000 )
+		{
+
+			// if (wp_verify_nonce( $_GET['_wpnonce'], 'success_bpal' ) )
+			// {
+				//$json_data = json_decode(base64_decode($_POST['options']));
+				$order_id =  $vender_tran_ref;
+				// print_r($_POST);
+				if($order_id > 0){
+					$order = new WC_Order( $order_id );
+					$order->update_status('completed', __( 'Completed payment', 'woocommerce' ));  
+					// $order->reduce_order_stock();
+					// wc()->cart->empty_cart();
+					$order->payment_complete();
+				// }
+			}
+		}
+
+	}
+}
+
+
