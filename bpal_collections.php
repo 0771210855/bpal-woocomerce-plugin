@@ -24,7 +24,7 @@
 		}else{
 			$message = "";
 			$message .= $result->status_desc;
-			$message .= " Check details and try again";
+			$message .= " Check details and try again.";
 			// $message ='Try again';			
 		}	
 		// wp_redirect($redirect_url);

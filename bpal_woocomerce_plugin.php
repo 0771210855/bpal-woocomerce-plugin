@@ -148,16 +148,19 @@ function woocommerce_bpal_init() {
 						<form action='".plugin_dir_url( __FILE__ ) . "./bpal_collections.php' method='post'>
 						<div class='logo'><img src='".plugin_dir_url(__FILE__)."favicon.png' style='width:60px;' alt='BPal'><div>";
 				
-			// $path = plugin_dir_url( __FILE__ );
-			// echo $path;
+			$path = plugin_dir_url( __FILE__ );
+			echo $path;
 			// exit();
 			if(isset($_GET['message'])){
 
-			$output.="<div class='message'> <p>".$_GET['message']."</p> <div>";
+			
 
 			
 
-				if($_GET['message'] != "Access denied Check details and try again"){
+				if($_GET['message'] == "Request submited. Please confirm on your phone to complete the transaction."){
+					
+					$output.="<div > <p class='message-sucess'>".$_GET['message']."</p> <div>";
+					
 					if($order_id > 0){
 						$order = new WC_Order( $order_id );
 						$order->update_status('Processing', __( 'Processing payment', 'woocommerce' ));  
@@ -165,6 +168,8 @@ function woocommerce_bpal_init() {
 						wc()->cart->empty_cart();
 						// $order->payment_complete();
 					}
+				}else{
+					$output.="<div > <p class='message-fail'>".$_GET['message']."</p> <div>";
 				}							
 			}		
 
@@ -204,46 +209,32 @@ function woocommerce_bpal_init() {
 add_action('woocommerce_init', 'woocommerce_bpal_init');
 
 
-if (false){
-
+if (isset($_POST)){
 	add_action('init','woo_check_bpal_response');
-
-
-function woo_check_bpal_response(){
-		
-	$bpal_post = json_decode(file_get_contents('php://input'), true);
 	
-		$netwrk_ref = $bpal_post['netwrk_ref'];
-		$vender_tran_ref = $bpal_post["vender_tran_ref"];
-		$collection = $bpal_post["collection"];
-		$status = $bpal_post["status"];
-		$status_desc = $bpal_post["status_desc"];
+	function woo_check_bpal_response(){
+		$bpal_post = json_decode(file_get_contents('php://input'), true);
 
-		$status_desc = json_decode(file_get_contents('php://input'), true);
+		if(isset($bpal_post['netwrk_ref'])){			
+		
+			$netwrk_ref = $bpal_post['netwrk_ref'];
+			$vender_tran_ref = $bpal_post["vender_tran_ref"];
+			$collection = $bpal_post["collection"];
+			$status = $bpal_post["status"];
+			$status_desc = $bpal_post["status_desc"];
 
-		$myfile = fopen(rand(1,50)."_newfile.txt", "w") or die("Unable to open file!");
-		fwrite($myfile, $netwrk_ref);
-		fclose($myfile);
-
-		if($status == 1000 )
-		{
-
-			// if (wp_verify_nonce( $_GET['_wpnonce'], 'success_bpal' ) )
-			// {
-				//$json_data = json_decode(base64_decode($_POST['options']));
+			if($status == 1000 ){
 				$order_id =  $vender_tran_ref;
-				// print_r($_POST);
 				if($order_id > 0){
 					$order = new WC_Order( $order_id );
 					$order->update_status('completed', __( 'Completed payment', 'woocommerce' ));  
 					// $order->reduce_order_stock();
 					// wc()->cart->empty_cart();
 					$order->payment_complete();
-				// }
+					
+				}
 			}
-		}
 
+		}
 	}
 }
-
-

@@ -24,6 +24,17 @@ form .footer-txt p a{
 }
 
 form input[type=submit]{
-	width: 100%;
+
 	border-radius: 5px;
+}
+.message-sucess{
+	background-color: rgb(221, 240, 248);
+	border-radius: 5px;
+	padding: 3px;
+}
+
+.message-fail{
+	background-color: rgb(245, 150, 150);
+	border-radius: 5px;
+	padding: 3px;
 }
