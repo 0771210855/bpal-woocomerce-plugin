@@ -5,7 +5,7 @@
  * Author: BPal Technologies
  * Author URI: http://bpalcloud.com
  * Version: 1.0
- * Description: Payments gateway Uganda.
+ * Description: Payments gateway .
  *
  *  text-domain: bpal
  * 
@@ -148,8 +148,8 @@ function woocommerce_bpal_init() {
 						<form action='".plugin_dir_url( __FILE__ ) . "./bpal_collections.php' method='post'>
 						<div class='logo'><img src='".plugin_dir_url(__FILE__)."favicon.png' style='width:60px;' alt='BPal'><div>";
 				
-			$path = plugin_dir_url( __FILE__ );
-			echo $path;
+			// $path = plugin_dir_url( __FILE__ );
+			// echo $path;
 			// exit();
 			if(isset($_GET['message'])){
 
