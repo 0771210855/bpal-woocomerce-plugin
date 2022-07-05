@@ -11,7 +11,7 @@
 		$amount = sanitize_text_field($_POST['amount']);
 		$reason = sanitize_text_field($_POST['reason']);
 		$name = sanitize_text_field($_POST['name']);
-		$tranId = rand(1111,9999);
+		$tranId = sanitize_text_field($_POST['order_id']);
 		$api_key = sanitize_text_field($_POST['api_key']);
 		$redirect_url = sanitize_text_field($_POST['redirect_url']);
 
@@ -34,7 +34,7 @@
 	}
 
 
-	if(isset($_POST['netwrk_ref'])){
+	if(isset($_POST['network_ref'])){
 
 		$_POST = file_get_contents('php://input');
 	

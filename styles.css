@@ -25,6 +25,11 @@ form .footer-txt p a{
 
 form input[type=submit]{
 	border-radius: 5px;
+	background-color: #db1e3c !important;
+}
+
+form input[type=submit]:hover{
+	background-color: #dd1e3b !important;
 }
 .message-sucess{
 	background-color: rgb(221, 240, 248);

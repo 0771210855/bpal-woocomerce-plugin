@@ -31,10 +31,10 @@ function woocommerce_bpal_init() {
 		class WC_BPal_payments_gateway extends WC_Payment_Gateway {
 		function __construct() {
 			$this->id = "woo_bpal_payment";
-			$this->method_title = __( "Woocommerce Mobile Money", 'bpal_payments' );
-			$this->method_description = __( "Woocommerce Mobile Money - extends woocommerce to allow mtn and airtel mobile money payments", 'bpal_payments' );
-			$this->title = __( "Woocommerce Mobile Money", 'bpal_payments' );
-			$this->icon = plugin_dir_url(__FILE__) . 'favicon.png';
+			$this->method_title = __( "bpal_woo_mobile_money", 'bpal_payments' );
+			$this->method_description = __( "bpal_woo_mobile_money - extends woocommerce to allow mtn and airtel mobile money payments", 'bpal_payments' );
+			$this->title = __( "bpal_woo_mobile_money", 'bpal_payments' );
+			// $this->icon = plugin_dir_url(__FILE__) . 'favicon.png';
 			$this->has_fields = true;
 			$this->init_form_fields();
 			$this->init_settings();
@@ -150,6 +150,7 @@ function woocommerce_bpal_init() {
 				
 			// $path = plugin_dir_url( __FILE__ );
 			// echo $path;
+			// echo $order_id;
 			// exit();
 			if(isset($_GET['message'])){
 
@@ -187,6 +188,7 @@ function woocommerce_bpal_init() {
 						<p>
 						<input type='hidden' name='redirect_url' value='".$actual_link."'>
 						<input type='hidden' name='amount' value='".$amount."'>
+						<input type='hidden' name='order_id' value='".$order_id."'>
 						<input type='hidden' name='name' value='".$buyer_name."'>
 						<input type='hidden' name='reason' value='test'>
 						<input type='hidden' name='api_key' value='".$api_key."'>
@@ -215,16 +217,16 @@ if (isset($_POST)){
 	function woo_check_bpal_response(){
 		$bpal_post = json_decode(file_get_contents('php://input'), true);
 
-		if(isset($bpal_post['netwrk_ref'])){			
+		if(isset($bpal_post['network_ref'])){			
 		
-			$netwrk_ref = $bpal_post['netwrk_ref'];
-			$vender_tran_ref = $bpal_post["vender_tran_ref"];
-			$collection = $bpal_post["collection"];
+			$network_ref = $bpal_post['network_ref'];
+			$vendor_tran_ref = $bpal_post["vendor_tran_ref"];
+			$collection = $bpal_post["collection_id"];
 			$status = $bpal_post["status"];
 			$status_desc = $bpal_post["status_desc"];
 
 			if($status == 1000 ){
-				$order_id =  $vender_tran_ref;
+				$order_id =  $vendor_tran_ref;
 				if($order_id > 0){
 					$order = new WC_Order( $order_id );
 					$order->update_status('completed', __( 'Completed payment', 'woocommerce' ));  
