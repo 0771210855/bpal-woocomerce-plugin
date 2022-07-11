@@ -174,17 +174,10 @@ function woocommerce_bpal_init() {
 				}							
 			}		
 
-			$output .= "<p>
-						<label for='network'>mobile Network</label>  <br >
-						<select name='service_id' class='custom-select' style='width:200px'>
-						<option value=''>select network</option>
-						<option value='1'>Airtel</option>
-						<option value='5'>MTN</option>
-						</select> 
-						</p>
+			$output .= "
 						<p>
-						<label for='phone'>phone number</label> <br >
-						<input type='tel' name='phone' required style='width:200px' placeholder=' phone starts with 2567...'>
+						<label for='phone'>Phone Number for payment charges</label> <br >
+						<input type='tel' name='phone' required style='width:250px' placeholder='07...'>
 						<p>
 						<input type='hidden' name='redirect_url' value='".$actual_link."'>
 						<input type='hidden' name='amount' value='".$amount."'>

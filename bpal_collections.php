@@ -6,8 +6,28 @@
 
 	if(isset($_POST['BPal_payments_gateway']))
 	{
-		$serviceId = sanitize_text_field($_POST['service_id']);
+		// checking phone number
 		$phone = sanitize_text_field($_POST['phone']);
+		if (str_starts_with($phone, '07')) {
+			$phone = "256".substr($phone, 1);
+		
+		}elseif((str_starts_with($phone, '7'))){
+			$phone = "256".$phone;
+		}
+		elseif((str_starts_with($phone, '+256'))){
+			$phone = substr($phone, 1);
+		}
+
+		// checking serviceID;
+
+		if(str_starts_with($phone, '25677')||str_starts_with($phone, '25678')||str_starts_with($phone, '25676')){
+			$serviceId = "5" ;
+		}
+		elseif(str_starts_with($phone, '25670')||str_starts_with($phone, '25675')||str_starts_with($phone, '25674')){
+			$serviceId = "1" ;
+		}
+		// $serviceId = sanitize_text_field($_POST['service_id']);
+
 		$amount = sanitize_text_field($_POST['amount']);
 		$reason = sanitize_text_field($_POST['reason']);
 		$name = sanitize_text_field($_POST['name']);
