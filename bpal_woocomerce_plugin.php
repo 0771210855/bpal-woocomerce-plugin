@@ -147,16 +147,11 @@ function woocommerce_bpal_init() {
 						<div class='bpal-container'>
 						<form action='".plugin_dir_url( __FILE__ ) . "./bpal_collections.php' method='post'>
 						<div class='logo'><img src='".plugin_dir_url(__FILE__)."favicon.png' style='width:60px;' alt='BPal'><div>";
-				
 			// $path = plugin_dir_url( __FILE__ );
 			// echo $path;
 			// echo $order_id;
 			// exit();
 			if(isset($_GET['message'])){
-
-			
-
-			
 
 				if($_GET['message'] == "Request submited. Please confirm on your phone to complete the transaction."){
 					
@@ -166,8 +161,20 @@ function woocommerce_bpal_init() {
 						$order = new WC_Order( $order_id );
 						$order->update_status('Processing', __( 'Processing payment', 'woocommerce' ));  
 						// $order->reduce_order_stock();
-						wc()->cart->empty_cart();
+						// wc()->cart->empty_cart();
 						// $order->payment_complete();
+
+						// $product_name = $item->get_name();
+
+						// $product_url_name = str_replace(" ", "-", $product_name);
+	
+						// $redirect_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+	
+						// // $link = "$redirect_link/courses/$product_url_name";
+
+						// wp_redirect("$redirect_link/courses/$product_url_name");
+								
+
 					}
 				}else{
 					$output.="<div > <p class='message-fail'>".$_GET['message']."</p> <div>";
